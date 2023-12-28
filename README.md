@@ -8,6 +8,14 @@ Bitcoin is the money of the future.
 
 Bitcoin is today's hope.
 
+
+Besides the Python codes, I have also written several articles related to Bitcoin:
+
+### Elliptic Curve in Bitcoin
+
+  #### English Version: https://estudiobitcoin.com/elliptic-curve-in-bitcoin/
+  #### Spanish Version: https://estudiobitcoin.com/curva-eliptica-en-bitcoin/
+
 ## secp256k1 Elliptic Curve Generator Point Multiplier Visualizer
 
 [secp256k1-elliptic-curve-generator-point-multiplier-visualizer.py](https://github.com/SalvaZaraes/bitcoin/blob/main/secp256k1-elliptic-curve-generator-point-multiplier-visualizer.py) 
