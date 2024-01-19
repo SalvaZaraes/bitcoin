@@ -69,7 +69,7 @@ def sum_pt(lower_x, upper_x, function):
 
 def steps(num):
     actions_list = []
-    if multiplo_g == 1:
+    if num == 1:
         print('You already have the point')
     else:
         while num > 1:
@@ -139,6 +139,10 @@ def plot_graph(list_points, steps_to_print):
     ax.legend(handles=[red_line, green_line])
     ax.set_xlabel("x")
     ax.set_ylabel("y")
+
+    # Add the 'x' and 'y' axis
+    ax.axhline(0, color='lightgrey', linestyle='-')
+    ax.axvline(0, color='lightgrey', linestyle='-')
 
     # Adjust the font and label placements
     font = 7
