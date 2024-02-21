@@ -17,6 +17,14 @@ Besides the Python codes, I have also written several articles related to Bitcoi
   > #### English Version: https://estudiobitcoin.com/elliptic-curve-in-bitcoin/
   > #### Spanish Version: https://estudiobitcoin.com/curva-eliptica-en-bitcoin/
 
+
+
+## ECDSA Message Signing Flow
+[ECDSA-message-signing-flow.py](https://github.com/SalvaZaraes/bitcoin/blob/main/ECDSA-message-signing-flow.py)
+
+This code demonstrates the process of digitally signing a plain text message using a public-private key pair and subsequently verifying the authenticity of the signature. Unlike utilizing a comprehensive ECDSA library module that abstracts away the underlying details, this implementation meticulously unfolds each step involved in both the signing and verification processes, providing the user with a transparent view of all intermediary values.
+
+
 ## secp256k1 Elliptic Curve Generator Point Multiplier Visualizer
 
 [secp256k1-elliptic-curve-generator-point-multiplier-visualizer.py](https://github.com/SalvaZaraes/bitcoin/blob/main/secp256k1-elliptic-curve-generator-point-multiplier-visualizer.py) 
