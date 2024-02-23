@@ -4,7 +4,6 @@ import ecdsa
 from ecdsa import SECP256k1, ellipticcurve
 
 
-
 def generate_keys():
     """Generates a private and public key pair."""
     # Generate a random 256-bit integer as a private key
@@ -25,8 +24,8 @@ def hash_message(message):
     return hashlib.sha256(message.encode('utf-8')).digest()
 
 def print_keys(key):
-    """Changes the format of a key to print it in various formats"""
-    printable_key = int.from_bytes(key.to_string(), byteorder="big")
+    """Changes the format of a key to print it in Hexadecimal"""
+    printable_key = key.to_string().hex()
     return printable_key
 
 
@@ -43,41 +42,56 @@ def sign_message(private_key, message_hash, generator_point):
     return r, s
 
 
-def verify_signature(public_key, message_hash, r, s, generator_point):
-    """Verifies a signature."""
-    message_hash_int = int.from_bytes(message_hash, byteorder="big")
-    c = pow(s, -1, SECP256k1.order)
-    print(f'\nc={c}')
-    u1 = (message_hash_int * c) % SECP256k1.order
-    print(f'\nu1={u1}')
-    u2 = (r * c) % SECP256k1.order
-    print(f'\nu1={u2}')
-    u1G = u1 * generator_point
-    print(f'\nu1 * G={int(u1G.to_bytes().hex(), 16)}')
-    u2PK = u2 * public_key.pubkey.point
-    print(f'\nu2 * PublicKey={int(u2PK.to_bytes().hex(), 16)}')
-    v = (u1G + u2PK).x() % SECP256k1.order
-    print(f'\nv={v}')
-    print(f'\nr={r}')
+def verify_signature_interactive(generator_point):
+    """Verifies a signature with user input."""
+    # User inputs
+    public_key_input = input("Enter the public key: ")
+    r_input = int(input("Enter the value of r: "))
+    s_input = int(input("Enter the value of s: "))
+    verification_message = input("Enter the message for verification: ")
 
-    return v == r
+    # Convert the public key input from decimal to a point on the elliptic curve
+    pk_x = int(public_key_input[:64], 16)
+    pk_y = int(public_key_input[64:], 16)
+
+    # Check if the point is on the curve
+    if not SECP256k1.curve.contains_point(pk_x, pk_y):
+        print("The provided public key does not correspond to a valid point on the SECP256k1 curve.")
+        return
+
+    public_key_point = ellipticcurve.Point(SECP256k1.curve, pk_x, pk_y, SECP256k1.order)
+    public_key = ecdsa.VerifyingKey.from_public_point(public_key_point, curve=SECP256k1)
+
+    # Hash the message
+    verification_hash = hash_message(verification_message)
+
+    # Continue with verification as before
+    message_hash_int = int.from_bytes(verification_hash, byteorder="big")
+    c = pow(s_input, -1, SECP256k1.order)
+    u1 = (message_hash_int * c) % SECP256k1.order
+    u2 = (r_input * c) % SECP256k1.order
+    u1G = u1 * generator_point
+    u2PK = u2 * public_key.pubkey.point
+    v = (u1G + u2PK).x() % SECP256k1.order
+
+    # Print verification result
+    print("\nThe signature is valid. Therefore, the private key used to derive the public key is the same one that was used to sign the message." if v == r_input else "\nThe signature is not valid.")
+
+
+#HAY QUE HACER QUE EN ESTE CASO LA CLAVE PUBLICA VAYA CON COORDENADAS X e Y
 
 
 if __name__ == "__main__":
     print("\nProcess: Generating Keys\n")
     sk, public_key, g = generate_keys()
-    print(f"\nKeys:\nPrivateKey={print_keys(sk)}\nPublicKey={print_keys(public_key)}\n\n")
-    #print(f"\nKeys in Hexadecimal:\nPrivateKey={hex(print_keys(sk))}\nPublicKey={hex(print_keys(public_key))}\n")
+    print(f"Keys:\nPrivateKey= {print_keys(sk)}\nPublicKey= {print_keys(public_key)}\n\n")
 
-    print("\nProcess: Signing\n\n")
+    print("\nProcess: Signing\n")
     message = input("Enter the message to sign: ")
     message_hash = hash_message(message)
     r, s = sign_message(sk, message_hash, g)
-    print(f"\nSignature: (r={r}, s={s})\n\n")
+    print(f"\nSignature: (r= {r}, s= {s})\n\n")
 
-    # Assuming the user re-enters the message for verification for simplicity
+    # New interactive verification process
     print("\nProcess: Verifying\n")
-    verification_message = input("Enter the message for verification: ")
-    verification_hash = hash_message(verification_message)
-    verification_result = verify_signature(public_key, verification_hash, r, s, g)
-    print("\nThe signature is valid." if verification_result else "\nThe signature is not valid.")
+    verify_signature_interactive(g)
