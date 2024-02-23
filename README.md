@@ -19,10 +19,10 @@ Besides the Python codes, I have also written several articles related to Bitcoi
 
 
 
-## ECDSA Message Signing Flow
-[ECDSA-message-signing-flow.py](https://github.com/SalvaZaraes/bitcoin/blob/main/ECDSA-message-signing-flow.py)
+## ECDSA Simple Signing and Verifying Flow
+[ECDSA-simple-flow.py](https://github.com/SalvaZaraes/bitcoin/blob/main/ECDSA-simple-flow.py)
 
-This code demonstrates the process of digitally signing a plain text message using a public-private key pair and subsequently verifying the authenticity of the signature. Unlike utilizing a comprehensive ECDSA library module that abstracts away the underlying details, this implementation meticulously unfolds each step involved in both the signing and verification processes, providing the user with a transparent view of all intermediary values.
+This Python script showcases the ECDSA process for signing plaintext messages and verifying their authenticity using a public-private key pair. It unfolds each step transparently, unlike comprehensive library modules. It generates key pairs, hashes messages with SHA-256, signs messages, and enables interactive signature verification.
 
 
 ## secp256k1 Elliptic Curve Generator Point Multiplier Visualizer
