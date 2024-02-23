@@ -80,9 +80,6 @@ def verify_signature_interactive(generator_point):
     print("\nThe signature is valid, v is equal to r. Therefore, the private key used to derive the public key is the same one that was used to sign the message." if v == r_input else "\nThe signature is not valid, v is not equal to r")
 
 
-#HAY QUE HACER QUE EN ESTE CASO LA CLAVE PUBLICA VAYA CON COORDENADAS X e Y
-
-
 if __name__ == "__main__":
     print("\nProcess: Generating Keys\n")
     sk, public_key, g = generate_keys()
