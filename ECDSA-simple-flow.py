@@ -32,7 +32,7 @@ def print_keys(key):
 def sign_message(private_key, message_hash, generator_point):
     """Signs a message."""
     random_key = secrets.randbelow(SECP256k1.order)
-    print(f'\nRandomKey={random_key}')
+    print(f'\nThe value of RandomKey= {random_key}')
     R = random_key * generator_point
     r = R.x() % SECP256k1.order
     sk_int = int.from_bytes(private_key.to_string(), byteorder="big")
@@ -73,9 +73,11 @@ def verify_signature_interactive(generator_point):
     u1G = u1 * generator_point
     u2PK = u2 * public_key.pubkey.point
     v = (u1G + u2PK).x() % SECP256k1.order
+    
+    print(f'\nThe value of v= {v}')
 
     # Print verification result
-    print("\nThe signature is valid. Therefore, the private key used to derive the public key is the same one that was used to sign the message." if v == r_input else "\nThe signature is not valid.")
+    print("\nThe signature is valid, v is equal to r. Therefore, the private key used to derive the public key is the same one that was used to sign the message." if v == r_input else "\nThe signature is not valid, v is not equal to r")
 
 
 #HAY QUE HACER QUE EN ESTE CASO LA CLAVE PUBLICA VAYA CON COORDENADAS X e Y
